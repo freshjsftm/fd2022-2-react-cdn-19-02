@@ -1,24 +1,46 @@
 // React;
 // ReactDOM;
 
-class Heading extends React.Component {
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0,
+    };
+  }
+  add = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+  sub = () => {
+    if (this.state.count > 0) {
+      this.setState({ count: this.state.count - 1 });
+    }
+  };
   render() {
-    const { titleProps, classProps, children } = this.props;
+    const { count } = this.state;
+    const { classNameSection, classNameBtn } = this.props;
     return React.createElement(
-      "h2",
-      { title: titleProps, className: classProps },
-      "Hi!",
-      ...children
+      "section", //React.Fragment
+      { className: classNameSection },
+      React.createElement("h2", {}, count),
+      React.createElement(
+        "button",
+        { onClick: this.add, className: classNameBtn },
+        "+"
+      ),
+      React.createElement(
+        "button",
+        { onClick: this.sub, className: classNameBtn },
+        "-"
+      )
     );
   }
 }
 
-const reactElement = React.createElement(Heading, {
-  titleProps: "title for h2",
-  classProps: "heading",
-}, 'children', '123');
-
-console.log(reactElement);
+const reactElement = React.createElement(Counter, {
+  classNameSection: "heading",
+  classNameBtn: "btn",
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(reactElement);
